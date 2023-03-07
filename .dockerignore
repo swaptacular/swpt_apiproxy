@@ -1,0 +1,10 @@
+.gitignore
+.dockerignore
+.git/
+node_modules/
+
+# Emacs files
+**/*~
+**/TAGS
+**/.projectile
+**/.dir-locals.el
