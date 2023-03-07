@@ -365,9 +365,9 @@ function initGlobalConstants() {
     }
     const min = parseI64(process.env.MIN_CREDITOR_ID)
     const max = parseI64(process.env.MAX_CREDITOR_ID)
-    shardedPathRegexp = /^\/creditors\/(\d{0,20})\//
+    shardedPathRegexp = /^\/creditors\/(\d{1,20})\//
     globalPathRegexp = /^\/creditors\/\.(wallet|list)$/
-    enumeratePathRegexp = /^\/creditors\/(\d{0,20})\/enumerate(?:\?.*)?$/
+    enumeratePathRegexp = /^\/creditors\/(\d{1,20})\/enumerate(?:\?.*)?$/
     buildEnumeratePath = (id, v) => `/creditors/${id}/enumerate?v=${v}`
     invalidPath = '/creditors/.invalid-path'
     reservePath = '/creditors/.creditor-reserve'
@@ -382,9 +382,9 @@ function initGlobalConstants() {
     }
     const min = parseI64(process.env.MIN_DEBTOR_ID)
     const max = parseI64(process.env.MAX_DEBTOR_ID)
-    shardedPathRegexp = /^\/debtors\/(\d{0,20})\//
+    shardedPathRegexp = /^\/debtors\/(\d{1,20})\//
     globalPathRegexp = /^\/debtors\/\.(debtor|list)$/
-    enumeratePathRegexp = /^\/debtors\/(\d{0,20})\/enumerate(?:\?.*)?$/
+    enumeratePathRegexp = /^\/debtors\/(\d{1,20})\/enumerate(?:\?.*)?$/
     buildEnumeratePath = (id, v) => `/debtors/${id}/enumerate?v=${v}`
     invalidPath = '/debtors/.invalid-path'
     reservePath = '/debtors/.debtor-reserve'
@@ -400,7 +400,7 @@ function initGlobalConstants() {
     if (process.env.MIN_DEBTOR_ID || process.env.MAX_DEBTOR_ID) {
       throw new Error('incomplete debtors interval')
     }
-    shardedPathRegexp = /^\/accounts\/(\d{0,20})\/(\d{0,20})\//
+    shardedPathRegexp = /^\/accounts\/(\d{1,20})\/(\d{1,20})\//
   }
 }
 
