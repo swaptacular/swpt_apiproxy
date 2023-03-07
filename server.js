@@ -407,7 +407,7 @@ function initGlobalConstants() {
 
 // Terminate all waiting listeners and exit.
 function closeGracefully(signal) {
-  console.info(`Received signal to terminate: ${signal}`)
+  console.log(`Received signal to terminate: ${signal}`)
   fs.unwatchFile(configFilePath)
   server.close(() => {
     process.exitCode = 0
