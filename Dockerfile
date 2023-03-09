@@ -1,4 +1,4 @@
-FROM node:18.14.2-alpine3.16
+FROM node:18.14.2-alpine3.16 AS app-image
 
 ENV NODE_ENV=production
 
