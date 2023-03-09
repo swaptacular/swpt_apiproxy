@@ -330,6 +330,19 @@ function parseEnumerateResponse(statusCode, contentType, body) {
 }
 
 
+// Return a new path, which has `v=${version}` correctly added to `path`.
+function addVersionParam(path, version) {
+  const param = `v=${version}`
+  if (path.includes('?')) {
+    if (path.endsWith('?')) {
+      return `${path}${param}`
+    }
+    return `${path}&${param}`
+  }
+  return `${path}?${param}`
+}
+
+
 // Loads the servers configuration for the proxy server form a file. Returns
 // `undefined` if the configuration file can not be read, or it contains an
 // invalid configuration.
@@ -460,10 +473,10 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
         const queryString = path.split('?', 2)[1] ?? ''
         const query = querystring.parse(queryString, {maxKeys: 1})
         const v = query['v'] ?? configVersion
-        data.uri += `?v=${v}`
+        data.uri = addVersionParam(data.uri, v)
         if (v === configVersion && configVersion === serversConfig?.version) {
           if (typeof data.next === 'string') {
-            data.next += `?v=${v}`
+            data.next = addVersionParam(data.next, v)
           } else {
             const url = serversConfig.serversSuccessors.get(res[FORWARD_URL])
             const minId = serversConfig.serversMinIds.get(url)
