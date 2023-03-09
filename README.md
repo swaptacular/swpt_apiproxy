@@ -56,7 +56,8 @@ APIPROXY_CONFIG_FILE=/etc/apiproxy.conf
 ```
 
 
-[Swaptacular]: https://swaptacular.github.io/overview [docker image]: https://www.geeksforgeeks.org/what-is-docker-images/
+[Swaptacular]: https://swaptacular.github.io/overview
+[docker image]: https://www.geeksforgeeks.org/what-is-docker-images/
 [shards]: https://en.wikipedia.org/wiki/Shard_(database_architecture)
 [Accounting Authority]: https://github.com/swaptacular/swpt_accounts
 [Creditors Agent]: https://github.com/swaptacular/swpt_creditors
