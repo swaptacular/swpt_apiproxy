@@ -254,19 +254,30 @@ function calcShardingKey(first, second) {
 }
 
 
+// Waits until the body of the request `req` is received, then calls
+// `processFunc` with it.
+function processRequestBody(req, processFunc) {
+  let chunks = []
+  req.on("data", chunk => {
+    chunks.push(chunk)
+  })
+  req.on("end", () => {
+    processFunc(Buffer.concat(chunks))
+  })
+}
+
+
 // Tries to reserve a random ID, tries again on 409 errors.
-async function reserveRandomId(serversConfig, req, res) {
+async function reserveRandomId(serversConfig, reqHeaders, reqBody, res) {
   let reserveResponse
   for (let i = 0; i < 100 && reserveResponse === undefined; i++) {
     const path = buildReservePath()
     const forwardUrl = serversConfig.findServerUrl(path)
     try {
-      reserveResponse = await axios.post(path, {
-        type: reserveRequestType,
-      }, {
+      reserveResponse = await axios.post(path, reqBody, {
         httpAgent,
         baseURL: forwardUrl,
-        headers: req.headers,
+        headers: reqHeaders,
         maxRedirects: 0,
         validateStatus: null,
         timeout: proxyTimeout,
@@ -286,7 +297,7 @@ async function reserveRandomId(serversConfig, req, res) {
     res.end(data)
   } else {
     res.writeHead(500, {'Content-Type': 'text/plain'})
-    res.end(`All ${reserveRequestType} attempts have failed.\n`)
+    res.end(`All reservation attempts have failed.\n`)
   }
 }
 
@@ -373,7 +384,6 @@ function initGlobalConstants() {
     invalidPath = '/creditors/.invalid-path'
     reservePath = '/creditors/.creditor-reserve'
     buildReservePath = () => `/creditors/${i2u(getRandomI64(min, max))}/reserve`
-    reserveRequestType = 'CreditorReservationRequest'
 
   } else if (process.env.MIN_DEBTOR_ID && process.env.MAX_DEBTOR_ID) {
     // When MIN_DEBTOR_ID and MAX_DEBTOR_ID are both defined, the proxy must
@@ -390,7 +400,6 @@ function initGlobalConstants() {
     invalidPath = '/debtors/.invalid-path'
     reservePath = '/debtors/.debtor-reserve'
     buildReservePath = () => `/debtors/${i2u(getRandomI64(min, max))}/reserve`
-    reserveRequestType = 'DebtorReservationRequest'
 
   } else {
     // When neither creditors' nor debtors' interval is defined, the proxy
@@ -485,7 +494,10 @@ const server = http.createServer(async (req, res) => {
   let forwardUrl
   if (serversConfig) {
     if (path === reservePath && req.method === 'POST') {
-      await reserveRandomId(serversConfig, req, res)
+      const config = serversConfig
+      processRequestBody(req, async (body) => {
+        await reserveRandomId(config, req.headers, body, res)
+      })
       return
     }
     forwardUrl = serversConfig.findServerUrl(path)
