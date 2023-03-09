@@ -281,8 +281,9 @@ async function reserveRandomId(serversConfig, req, res) {
     }
   }
   if (reserveResponse) {
-    res.writeHead(reserveResponse.status, reserveResponse.headers)
-    res.end(reserveResponse.data)
+    const { status, headers, data } = reserveResponse
+    res.writeHead(status, {'Content-Type': headers['content-type']})
+    res.end(data)
   } else {
     res.writeHead(500, {'Content-Type': 'text/plain'})
     res.end(`All ${reserveRequestType} attempts have failed.\n`)
