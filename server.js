@@ -495,8 +495,8 @@ const server = http.createServer(async (req, res) => {
   if (serversConfig) {
     if (path === reservePath && req.method === 'POST') {
       const config = serversConfig
-      processRequestBody(req, async (body) => {
-        await reserveRandomId(config, req.headers, body, res)
+      processRequestBody(req, (body) => {
+        reserveRandomId(config, req.headers, body, res)
       })
       return
     }
