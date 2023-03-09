@@ -484,7 +484,7 @@ const server = http.createServer(async (req, res) => {
   const path = req.url
   let forwardUrl
   if (serversConfig) {
-    if (path === reservePath) {
+    if (path === reservePath && req.method === 'POST') {
       await reserveRandomId(serversConfig, req, res)
       return
     }
