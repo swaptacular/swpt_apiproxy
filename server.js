@@ -461,12 +461,11 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
       chunks.push(chunk)
     })
     proxyRes.on('end', async () => {
+      const { statusCode, headers } = proxyRes
       const path = req.url
       const body = Buffer.concat(chunks)
       const data = parseEnumerateResponse(
-        proxyRes.statusCode,
-        proxyRes.headers['content-type'],
-        body,
+        statusCode, headers['content-type'], body
       )
       if (data) {
         const configVersion = res[CONFIG_VERSION]
@@ -495,6 +494,7 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
         res.writeHead(200, {'Content-Type': 'application/json'})
         res.end(JSON.stringify(data))
       } else {
+        res.writeHead(statusCode, {'Content-Type': headers['content-type']})
         res.end(body)
       }
     })
