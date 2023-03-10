@@ -19,7 +19,7 @@ const httpAgent = new http.Agent({ keepAlive: true })
 
 let shardedPathRegexp, globalPathRegexp
 let enumeratePathRegexp, buildEnumeratePath, invalidPath
-let reservePath, buildReservePath, reserveRequestType
+let reservePath, buildReservePath
 
 
 class ConfigError extends Error {
