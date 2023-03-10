@@ -72,6 +72,10 @@ APIPROXY_PORT=8080
 #
 # because it does not cover sharding keys starting with a
 # binary "1".
+#
+# Note: If the configuration file changes, the change will will
+# be detected by the API proxy, and the new configuration will be
+# loaded and applied automatically.
 APIPROXY_CONFIG_FILE=/etc/apiproxy.conf
 ```
 
