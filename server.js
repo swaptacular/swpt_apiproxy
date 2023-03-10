@@ -293,7 +293,7 @@ async function reserveRandomId(serversConfig, reqHeaders, reqBody, res) {
   }
   if (reserveResponse) {
     const { status, headers, data } = reserveResponse
-    res.writeHead(status, {'Content-Type': headers['content-type']})
+    res.writeHead(status, {'Content-Type': headers['content-type'] ?? ''})
     res.end(data)
   } else {
     res.writeHead(500, {'Content-Type': 'text/plain'})
@@ -494,7 +494,7 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
         res.writeHead(200, {'Content-Type': 'application/json'})
         res.end(JSON.stringify(data))
       } else {
-        res.writeHead(statusCode, {'Content-Type': headers['content-type']})
+        res.writeHead(statusCode, {'Content-Type': headers['content-type'] ?? ''})
         res.end(body)
       }
     })
