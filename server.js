@@ -468,6 +468,7 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
         statusCode, headers['content-type'], body
       )
       if (data) {
+        const forwardUrl = res[FORWARD_URL]
         const configVersion = res[CONFIG_VERSION]
         const queryString = path.split('?', 2)[1] ?? ''
         const query = querystring.parse(queryString, {maxKeys: 1})
@@ -475,9 +476,25 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
         data.uri = addVersionParam(data.uri, v)
         if (v === configVersion && configVersion === serversConfig?.version) {
           if (typeof data.next === 'string') {
-            data.next = addVersionParam(data.next, v)
+            const baseUrl = new URL(req.url, forwardUrl).href
+            let next_path
+            try {
+              next_path = new URL(data.next, baseUrl).pathname
+            } catch {
+              next_path = ''
+            }
+            if (serversConfig.findServerUrl(next_path) !== forwardUrl) {
+              // This may happen if the records managed by one database have
+              // been split to two databases, but the leftover records have
+              // not been deleted yet. In this case, we want to "break" the
+              // traversal of the paginated list.
+              data.items = []
+              data.next = invalidPath
+            } else {
+              data.next = addVersionParam(data.next, v)
+            }
           } else {
-            const url = serversConfig.serversSuccessors.get(res[FORWARD_URL])
+            const url = serversConfig.serversSuccessors.get(forwardUrl)
             const minId = serversConfig.serversMinIds.get(url)
             if (typeof minId === 'bigint') {
               data.next = buildEnumeratePath(i2u(minId), v)
