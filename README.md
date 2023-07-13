@@ -60,21 +60,21 @@ APIPROXY_PORT=8080
 # followed by at least one space, followed by a web server
 # URL (only "http://" server URLs are supported). Route
 # specifiers consist of zero or more 0s or 1s, separated by dots,
-# ending with an asterisks ("*"). An example configuration file:
+# ending with a hash symbol ("#"). An example configuration file:
 #
-# 0.* http://first-server:8001
-# 1.* http://second-server:8001
+# 0.# http://first-server:8001
+# 1.# http://second-server:8001
 #
 # or, for a sigle server:
 #
-# * http://the-only-server
+# # http://the-only-server
 #
 # Note that the APIPROXY_CONFIG_FILE environment variable *must*
 # be set, and the route specifiers in the configuration file must
 # cover all possible bit masks. For example, the following
 # configuration file is invalid:
 #
-# 0.* http://some-server
+# 0.# http://some-server
 #
 # because it does not cover sharding keys starting with a
 # binary "1".
