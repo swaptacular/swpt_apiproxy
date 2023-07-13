@@ -29,14 +29,20 @@ values:
 # To configure a "Creditors Agent" proxy, the MIN_CREDITOR_ID and
 # MAX_CREDITOR_ID environment variables must be set, indicating
 # that the creditors agent will be responsible for creditor IDs
-# between "$MIN_CREDITOR_ID" and "$MAX_CREDITOR_ID".
+# between "$MIN_CREDITOR_ID" and "$MAX_CREDITOR_ID". The values
+# can be formatted as decimal integers (negative decimal integers
+# are allowed), or as hexadecimal non-negative integers (with
+# the "0x" prefix).
 MIN_CREDITOR_ID=4294967296
 MAX_CREDITOR_ID=8589934591
 
 # To configure a "Debtors Agent" proxy, the MIN_DEBTOR_ID and
 # MAX_DEBTOR_ID environment variables must be set, indicating
 # that the debtors agent will be responsible for debtor IDs
-# between "$MIN_DEBTOR_ID" and "$MAX_DEBTOR_ID".
+# between "$MIN_DEBTOR_ID" and "$MAX_DEBTOR_ID". The values can
+# be formatted as decimal integers (negative decimal integers are
+# allowed), or as hexadecimal non-negative integers (with
+# the "0x" prefix).
 MIN_DEBTOR_ID=4294967296
 MAX_DEBTOR_ID=8589934591
 
