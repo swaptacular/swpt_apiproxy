@@ -56,12 +56,12 @@ class ServerRoute {
 
   // Parses a route specifier, which resembles an RabbitMQ route. Route
   // specifiers consist of zero or more 0s or 1s, separated by dots, ending
-  // with an asterisks ("*"). For example: "1.0.0.1.*", or "*". The function
-  // returns a string, containing the original route specifier, but all the
-  // dots and the asterisk are removed.
+  // with a hash symbol ("#"). For example: "1.0.0.1.#", or "#". The
+  // function returns a string, containing the original route specifier, but
+  // all the dots and the hash symbol are removed.
   static parseRoute(s) {
     if (typeof s === 'string') {
-      const m = s.match(/^((?:[01]\.){0,20})\*$/)
+      const m = s.match(/^((?:[01]\.){0,20})\#$/)
       if (m) {
         return m[1].replaceAll('.', '')
       }
