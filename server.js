@@ -567,19 +567,3 @@ console.log(`Swaptacular API proxy is listening on port ${proxyPort}.`)
 
 process.once('SIGINT', closeGracefully)
 process.once('SIGTERM', closeGracefully)
-
-//
-// Create your target server
-//
-http.createServer(function (req, res) {
-  // console.log(req.method);
-  // console.log(req.headers);
-  // req.on('data', (x) => {
-  //   console.log('===========================')
-  //   console.log(x.toString())
-  //   console.log('===========================')
-  // })
-  res.writeHead(200, { 'Content-Type': 'text/plain' });
-  res.write('request successfully proxied to: ' + req.url + '\n' + JSON.stringify(req.headers, true, 2));
-  res.end();
-}).listen(9008);
