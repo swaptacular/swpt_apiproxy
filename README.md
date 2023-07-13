@@ -43,8 +43,8 @@ MAX_CREDITOR_ID=8589934591
 # be formatted as decimal integers (negative decimal integers are
 # allowed), or as hexadecimal non-negative integers (with
 # the "0x" prefix).
-MIN_DEBTOR_ID=4294967296
-MAX_DEBTOR_ID=8589934591
+MIN_DEBTOR_ID=0x100000000
+MAX_DEBTOR_ID=0x1ffffffff
 
 # To configure an "Accounting Authority" proxy, *none of the*
 # MIN_CREDITOR_ID, MAX_CREDITOR_ID, MIN_DEBTOR_ID and
