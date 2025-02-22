@@ -522,6 +522,11 @@ proxy.on('proxyRes', (proxyRes, req, res) => {
 // The HTTP server that will accept client connections.
 const server = http.createServer(async (req, res) => {
   const path = req.url
+  if (path === '/healthz' && req.method === 'GET') {
+    res.writeHead(200, {'Content-Type': 'text/plain'})
+    res.end('The proxy is ready!\n')
+    return
+  }
   let forwardUrl
   if (serversConfig) {
     if (path === reservePath && req.method === 'POST') {
