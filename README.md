@@ -52,7 +52,9 @@ MAX_DEBTOR_ID=0x1ffffffff
 
 
 # The proxy will listen for HTTP requests on
-# port "$APIPROXY_PORT" (default 8080).
+# port "$APIPROXY_PORT" (default 8080). The path "/healthz" can be
+# used as a readyness/liveness probe, and if the server has started,
+# it will always return an HTTP 200 status code.
 APIPROXY_PORT=8080
 
 # The full path to the configuration file. Each line in the
